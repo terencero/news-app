@@ -49,7 +49,8 @@ request('https://techcrunch.com/crunch-network/', function(error, res, html) {
 
         // Save the text of the element (this) with child element with class 'story-container' in a title var
         var title = $(this).children('.story-container').children('h3').text();
-
+        // Save the text of the element (this) with child element with class 'story-container' > 'story-byline' > a tag in a byline var
+        var byline = $(this).children('.story-container').children('.story-byline').children('a').text();
         // In current element(this) look at its child elements with class 'story-container, then save the href attribute values in var link
         var link = $(this).children('.story-container').children('h3').children('a').attr('href');
         // In current element(this) look at its child elements with class of 'thumb', then save the image linke to var image.
@@ -58,6 +59,7 @@ request('https://techcrunch.com/crunch-network/', function(error, res, html) {
         //  Save these results in an object and push to the result array.
         result.push({
             title: title,
+            byline: byline,
             link: link,
             image: image
         });
