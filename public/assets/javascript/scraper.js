@@ -1,14 +1,7 @@
-// var db = require('../models');
-var rp = require('request-promise');
-var express = require('express');
-// Snatches HTML from URLs
-var request = require('request');
-// scrapes HTML
 var cheerio = require('cheerio');
-// call Router function on express and assign to var router to export on "router" file with all route paths
-var router = express.Router();
+var rp = require('request-promise');
 
-router.get('/', function (req, res) {
+$("#scrape").on('click', function() {
     var options = {
         uri: 'https://techcrunch.com/column/',
         transform: function (body) {
@@ -53,5 +46,3 @@ router.get('/', function (req, res) {
 
     });
 });
-
-module.exports = router;
