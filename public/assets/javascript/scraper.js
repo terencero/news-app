@@ -2,8 +2,12 @@ var cheerio = require('cheerio');
 var rp = require('request-promise');
 
 $("#scrape").on('click', function() {
+    var page = 1;
+   
+        page++
+    
     var options = {
-        uri: 'https://techcrunch.com/column/',
+        uri: 'https://techcrunch.com/column/page/' + page,
         transform: function (body) {
             return cheerio.load(body);
         }

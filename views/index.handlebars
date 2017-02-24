@@ -1,7 +1,10 @@
 <button type="button" id="scrape">Get New Articles</button>
 {{#each this}}
+<div>
 <p>{{this.title}}</p>
 <p>{{this.byline}}</p>
 <p>{{this.link}}</p>
 <p>{{this.excerpt}}</p>
+    <button type="button">Save</button>
+</div>
 {{/each}}
