@@ -60,8 +60,10 @@ router.get('/', function (req, res) {
 });
 
 router.post('/submit', function(req, res) {
-// save the articled when user clicks it's save button
+// save the article when user clicks it's save button
+// the req.body gets it's values from hidden input fields on the index.handlebars
     var newSavedArticle = new Saved(req.body);
+    // send the body to the save method and pass into doc 
     newSavedArticle.save(function(err, doc) {
         if (err) {
             res.send(err);
