@@ -8,6 +8,8 @@ var cheerio = require('cheerio');
 // call Router function on express and assign to var router to export on "router" file with all route paths
 var router = express.Router();
 
+var Saved = require('../models/saved_news.js');
+
 router.get('/', function (req, res) {
     var options = {
         uri: 'https://techcrunch.com/column/',
@@ -36,13 +38,16 @@ router.get('/', function (req, res) {
             var link = $(this).children('.post-title').children('a').attr('href');
             // In current element(this) look at its child elements with class of 'thumb', then save the image linke to var image.
             var excerpt = $(this).children('.excerpt').text();
+            // Get the id for each story block under the div.block-content parent li node
+            var articleId = $(this).parent('.river-block').attr('id');
 
             //  Save these results in an object and push to the result array.
             result.push({
                 title: title,
                 byline: byline,
                 link: link,
-                excerpt: excerpt
+                excerpt: excerpt,
+                articleId: articleId
             });
 
         });
@@ -52,6 +57,20 @@ router.get('/', function (req, res) {
         res.render('index', result);
 
     });
+});
+
+router.post('/submit', function(req, res) {
+// save the articled when user clicks it's save button
+    var newSavedArticle = new Saved(req.body);
+    newSavedArticle.save(function(err, doc) {
+        if (err) {
+            res.send(err);
+        } else {
+            // send the saved document to the saveds collection in the db
+            res.send(doc);
+        }
+
+    })
 });
 
 module.exports = router;

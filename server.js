@@ -6,9 +6,9 @@ var app = express();
 var mongoose = require('mongoose');
 var rp = require('request-promise');
 mongoose.Promise = Promise;
+// Import router and assign to routes
+var routes = require('./controllers/news_app_controller.js');
 
-var db = mongoose.connection;
-// var db = require('...');
 
 // bodyparser to read the body of the json object
 var bodyParser = require('body-parser');
@@ -17,15 +17,23 @@ var bodyParser = require('body-parser');
 var request = require('request');
 // scrapes HTML
 var cheerio = require('cheerio');
+// require the 'Saved' module to get access to the model and create new models
+var Saved = require('./models/saved_news.js');
 //--------------end of dependencies----------------------------------------------------------
+
+// -----------------connections to host, mongoose, and mongodb-------------------------------
 var PORT = process.env.PORT || 8080;
 
-mongoose.connect('mongodb://localhost/test');
+// connect mongoose to localhost/database name 'news_app_db'
+mongoose.connect('mongodb://localhost/news_app_db');
+// save mongoose connection to var db
+var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
     console.log('We\'re connected!');
 });
-// middleware
+
+// -----------------------------middleware----------------------------------------------------
 // serve/route to static content
 app.use(express.static(process.cwd() + '/public'));
 
@@ -39,9 +47,8 @@ app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
 app.engine('handlebars', exphbs({ defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
-// Import router and assign to routes
-var routes = require('./controllers/news_app_controller.js');
 
+// ----------------------------routes--------------------------------------------------------
 // use the get/post/update routes in news_app_controller.js
 app.use('/', routes);
 

@@ -1,10 +1,12 @@
 <button type="button" id="scrape">Get New Articles</button>
 {{#each this}}
 <div>
-<p>{{this.title}}</p>
-<p>{{this.byline}}</p>
-<p>{{this.link}}</p>
-<p>{{this.excerpt}}</p>
-    <button type="button">Save</button>
+    <form action="/submit" method="POST">
+<p><input type="hidden" name="title" value="{{this.title}}"><a href={{this.link}}>{{this.title}}</a></input></p>
+<p><input type="hidden" name="link" value="{{this.link}}"></input><p/>
+<p><input type="hidden" name="byline" value="{{this.byline}}">{{this.byline}}</input><p/>
+<p><input type="hidden" name="excerpt" value="{{this.excerpt}}">{{this.excerpt}}</input></p>
+    <button type="submit" class="save" id={{this.articleId}}>Save</button></p>
+    </form>
 </div>
 {{/each}}

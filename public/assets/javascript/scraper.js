@@ -1,21 +1,7 @@
-var cheerio = require('cheerio');
-var rp = require('request-promise');
+$("#scrape").on('click', function () {
 
-$("#scrape").on('click', function() {
-    var page = 1;
-   
-        page++
-    
-    var options = {
-        uri: 'https://techcrunch.com/column/page/' + page,
-        transform: function (body) {
-            return cheerio.load(body);
-        }
-    };
-
-    rp(options).then(function ($) {
-        // load the html into cheerio and save it to a var
-        // '$' becomes a shorthand for cheerio's selector commands, much like jQuery's '$'
+    // Making a request call for reddit's "webdev" board. The page's HTML is saved as the callback's third argument
+    request('https://techcrunch.com/column/page/', function (error, response, html) {
 
 
         // empty array to save the data that we'll scrape
