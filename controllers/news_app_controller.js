@@ -7,8 +7,12 @@ var request = require('request');
 var cheerio = require('cheerio');
 // call Router function on express and assign to var router to export on "router" file with all route paths
 var router = express.Router();
-
+// import models
 var Saved = require('../models/saved_news.js');
+var Comments = require('../models/comments.js');
+
+
+// --------------------------------CRUD routes-------------------------------------------------------------------------
 
 router.get('/', function (req, res) {
     var options = {
@@ -59,7 +63,7 @@ router.get('/', function (req, res) {
     });
 });
 
-router.post('/submit', function(req, res) {
+router.post('/', function(req, res) {
 // save the article when user clicks it's save button
 // the req.body gets it's values from hidden input fields on the index.handlebars
     var newSavedArticle = new Saved(req.body);
@@ -69,10 +73,40 @@ router.post('/submit', function(req, res) {
             res.send(err);
         } else {
             // send the saved document to the saveds collection in the db
-            res.send(doc);
+            console.log(doc);
         }
 
-    })
+    });
+    res.redirect('/');
+});
+
+router.get('/saved_articles', function(req, res) {
+    // Grab all the saved saved_articles
+    Saved.find({}, function(error, doc) {
+        if (error) {
+            console.log(error);
+        } else {
+            res.render('saved_articles', doc);
+        }
+    });
+});
+
+router.post('/saved_messages', function(req, res) {
+    console.log('data req', req.body);
+    // var messageBody = req.body.textarea1;
+    // Save the comments in the comments modal text area box
+    var newComment = new Comments(req.body);
+    // Send the body to the save method and pass into doc
+    newComment.save(function(err, doc) {
+        if (err) {
+            res.send(err);
+        } else {
+            // Send the saved document to the Comments collection
+            console.log('thisDoc',doc);
+            res.redirect('/saved_articles');           
+        }
+    });
+    
 });
 
 module.exports = router;

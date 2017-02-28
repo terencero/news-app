@@ -1,0 +1,63 @@
+<div>
+  {{#each this}}
+  <div>
+    <p><a href={{this.link}}>{{this.title}}</a></p>
+    <p><input type="hidden" name="byline" value="{{this.byline}}">{{this.byline}}</p>
+      <p>{{this.excerpt}}</p>
+      <!-- Modal Trigger -->
+      <button class="modal-trigger waves-effect waves-light btn" onclick="$('#comment').modal('open')">Modal</button>
+  </div>
+
+  <!-- Comments Modal Structure Begin -->
+  <div id="comment" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <h4>Modal Header</h4>
+      {{!--text area input--}}
+      <div class="row">
+        <form class="col s12" action="/saved_messages" method="POST">
+          <div class="row">
+            <div class="input-field col s12">
+              <textarea name="message" id="textbox" class="materialize-textarea"></textarea>
+              <label for="message">Textarea</label>
+            </div>
+          </div>
+          <button type="submit" class="modal-action waves-effect waves-green btn-flat comment">Save Comment</button>
+        </form>
+      </div>
+      {{!--text area input--}}
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+    </div>
+    
+  </div>
+  <!-- Comments Modal Structure End -->
+  <!-- Success Modal Structure Begin -->
+  <div id="commentSuccess" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <h4>Modal Header</h4>
+      <p>Saved!</p>
+    </div>
+    <div class="modal-footer">
+      
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+    </div>
+  </div>
+  <!-- Success Modal Structure End -->
+
+  <!-- Fail Modal Structure Begin -->
+  <div id="commentFail" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <h4>Modal Header</h4>
+      <p>Oops! Something isn't right. Please try again later.</p>
+    </div>
+    <div class="modal-footer">
+     
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+    </div>
+  </div>
+  <!-- Fail Modal Structure End -->
+
+{{/each}}
+</div>
+ 
